@@ -1,0 +1,238 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Desafio Swagger",
+        "description": "Desafio do capítulo 2 do Ingite Node",
+        "version": "1.0.0",
+        "contact": {
+            "email": "marieli.matos@gmail.com" 
+        }
+    },
+    "paths": {
+        "/users": {
+            "post": {
+                "tags": ["User"],
+                "summary": "Cria um novo usuário",
+                "descrption": "Cria um novo usuário",
+                "requestBody": {
+                    "content":{
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    }
+                                },
+                                "example": {
+                                    "name": "User name sample",
+                                    "email": "User email sample"
+                                }
+                            }
+                        }
+                    }
+                    
+                },
+                "responses": {
+                    "201":{
+                        "description": "Created"
+                    },
+                    "500": {
+                        "description": "Catogory alredy exists"
+                    }
+                }
+            },
+            "get": {
+                "tags": ["User"],
+                "summary": "Lista todos os usuários",
+                "description": "Lista todos os usuários",
+                "responses": {
+                    "200": {
+                        "description": "Sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "type": "object",
+                                    "properties":{
+                                        "id": {
+                                            "type": "string"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "admin": {
+                                            "type": "boolean"
+                                        },
+                                        "email":{
+                                            "type": "string"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time"
+                                        } 
+                                    }     
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Usuário não encontrado ou sem permissão",
+                        "content": {
+                            "application/json":{
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "error": "É preciso ser admin para listar todos os usuários"
+                                       
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "header",
+                    "required": true,
+                    "schema": {
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                }
+            ]
+
+        },
+        "/user/{user_id}": {
+            "get": {
+                "tags": ["User"],
+                "summary": "Lista um usuário específico",
+                "description": "Lista um usuário específico",
+                "responses": {
+                    "200": {
+                        "description": "Sucesso",
+                        "content":{
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "admin":{
+                                            "type":"boolean"
+                                        },
+                                        "id": {
+                                            "type": "string",
+                                            "format":"uuid"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "email": {
+                                            "type": "string"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format":"date-time"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Usuário não encontrado",
+                        "content": {
+                            "application/json":{
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "error": "Usuário não encontrado"
+                                       
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/user/{user_id}/admin": {
+            "patch": {
+                "tags": ["User"],
+                "summary": "Torna um usuário em admin",
+                "description": "Torna um usuário em admin",
+                "responses": {
+                    "201": {
+                        "description": "Sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "type": "object",
+                                    "properties":{
+                                        "id": {
+                                            "type": "string"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "admin": {
+                                            "type": "boolean"
+                                        },
+                                        "email":{
+                                            "type": "string"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time"
+                                        } 
+                                    }     
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Usuário não encontrado ou sem permissão",
+                        "content": {
+                            "application/json":{
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "error": "Usuário não encontrado"
+                                       
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                }
+            ]
+        }
+    }
+
+}
